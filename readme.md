@@ -28,11 +28,11 @@ This project has 4 Domain layer :
 
 #### The diagram:
 
-![l-twitter architecture](https://github.com/)
+![l-twitter architecture](https://github.com/ibanezv/l_twitter_api/raw/main/docs/img/ltwitter.arch.drawio.png)
 
 #### The diagram in detail:
 
-![l-twitter detailed architecture](https://github.com/)
+![l-twitter detailed architecture](https://github.com/ibanezv/l_twitter_api/raw/main/docs/img/ltwitter.arch.detail.png)
 
 ### How To Run This Project
 
