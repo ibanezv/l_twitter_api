@@ -1,0 +1,19 @@
+app:
+  name: 'go-little-twitter'
+  version: '1.0.0'
+
+http:
+  port: '8080'
+
+logger:
+  log_level: 'debug'
+  rollbar_env: 'go-little-twitter'
+
+postgres:
+  pool_max: 2
+  url: 'postgres://localhost'
+  name: 'DBTwitter'
+
+redis:
+  address: 'localhost:6379'
+  db: 0

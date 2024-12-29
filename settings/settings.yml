@@ -1,0 +1,11 @@
+tweets:
+  charlimit: 280
+
+cache:
+  expiration_tweets: 10
+  expiration_time_line: 10
+  expiration_followers: 10
+
+timeline:
+  tweets_per_user: 30
+  max_tweets: 100

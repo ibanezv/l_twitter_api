@@ -1,0 +1,1 @@
+- User entity was not designed/developed, this is reason why any user_id received in any request is considered valid.
