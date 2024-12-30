@@ -38,7 +38,7 @@ func NewAppSettings() (*Settings, error) {
 		log.Println(err)
 	}
 
-	err = cleanenv.ReadConfig("../../settings/settings.yml", appSettings)
+	err = cleanenv.ReadConfig("./settings/settings.yml", appSettings)
 	if err != nil {
 		return nil, fmt.Errorf("loading settings error: %w", err)
 	}

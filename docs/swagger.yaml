@@ -1,0 +1,126 @@
+basePath: /v1/api-twitter
+definitions:
+  handlers.doTweetRequest:
+    properties:
+      date_time:
+        example: "2017-07-21T17:32:28Z"
+        format: date-time
+        type: string
+      text:
+        example: message example
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    required:
+    - date_time
+    - text
+    - user_id
+    type: object
+  handlers.response:
+    properties:
+      message:
+        type: string
+    type: object
+  handlers.tweetResponse:
+    properties:
+      date_time:
+        type: string
+      id:
+        type: integer
+      text:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  timeline.TimelineUser:
+    properties:
+      tweets:
+        items:
+          $ref: '#/definitions/tweet.Tweet'
+        type: array
+      user_id:
+        type: integer
+    type: object
+  tweet.Tweet:
+    properties:
+      date_time:
+        type: string
+      id:
+        type: integer
+      text:
+        type: string
+      user_id:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Little Twitter API
+  title: Little Twitter API
+  version: "1.0"
+paths:
+  /Timeline/user_id:
+    get:
+      consumes:
+      - application/json
+      description: Get the timeline for a user
+      operationId: user_id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/timeline.TimelineUser'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.response'
+      summary: Get Timeline
+      tags:
+      - timeline
+  /follow:
+    post:
+      consumes:
+      - application/json
+      description: Create a new follower
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.response'
+      summary: Set a new follower
+      tags:
+      - follower
+  /tweet:
+    post:
+      consumes:
+      - application/json
+      description: Create a new tweet
+      parameters:
+      - description: New tweet
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.doTweetRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.tweetResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.response'
+      summary: New Tweet
+      tags:
+      - tweet
+swagger: "2.0"

@@ -1,105 +1,17 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Little twitter app",
-        "title": "l-twitter",
+        "description": "Little Twitter API",
+        "title": "Little Twitter API",
         "contact": {},
         "version": "1.0"
     },
     "host": "localhost:8080",
-    "basePath": "/v1/",
+    "basePath": "/v1/api-twitter",
     "paths": {
-        "/api-twitter/follow": {
-            "post": {
-                "description": "Post a new follower",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "follower"
-                ],
-                "summary": "follower",
-                "operationId": "post-follower",
-                "parameters": [
-                    {
-                        "description": "Set a new follower user",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/v1.doFollowerRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/v1.followerResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/v1.response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/v1.response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api-twitter/tweet": {
-            "post": {
-                "description": "Post a new tweet message",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "tweet"
-                ],
-                "summary": "Post a tweet",
-                "operationId": "tweet",
-                "parameters": [
-                    {
-                        "description": "Post a new tweet",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/v1.doTweetRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/v1.tweetResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/v1.response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api-twitter/timeline/{userId}": {
+        "/Timeline/user_id": {
             "get": {
-                "description": "Get timeline for a user",
+                "description": "Get the timeline for a user",
                 "consumes": [
                     "application/json"
                 ],
@@ -109,37 +21,85 @@
                 "tags": [
                     "timeline"
                 ],
-                "summary": "timeline",
-                "operationId": "get-timeline",
-                "parameters": [
-                    {
-                        "description": "User Id",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
+                "summary": "Get Timeline",
+                "operationId": "user_id",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/v1.timelineResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/v1.response"
+                            "$ref": "#/definitions/timeline.TimelineUser"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/v1.response"
+                            "$ref": "#/definitions/handlers.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/follow": {
+            "post": {
+                "description": "Create a new follower",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "follower"
+                ],
+                "summary": "Set a new follower",
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/tweet": {
+            "post": {
+                "description": "Create a new tweet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tweet"
+                ],
+                "summary": "New Tweet",
+                "parameters": [
+                    {
+                        "description": "New tweet",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.doTweetRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.tweetResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.response"
                         }
                     }
                 }
@@ -147,108 +107,82 @@
         }
     },
     "definitions": {
-        "v1.followerResponse": {
-            "type": "object",
-            "properties": {
-                "user_id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "user_id_followed": {
-                    "type": "integer",
-                    "example": 2
-                },
-                "start_date": {
-                    "type": "string",
-                    "format": "date-time",
-                    "example": "2017-07-21T17:32:28Z"
-                }
-            }
-        },
-        "v1.tweetResponse": {
-            "type": "object",
-            "properties": {
-                "user_id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "text": {
-                    "type": "string",
-                    "example": "tweet message"
-                },
-                "datetime": {
-                   "type": "string",
-                    "format": "date-time",
-                    "example": "2017-07-21T17:32:28Z"
-                }
-            }
-        },
-        "v1.doFollowerRequest": {
+        "handlers.doTweetRequest": {
             "type": "object",
             "required": [
-                "user_id",
-                "user_id_followed"
-            ],
-            "properties": {
-                "user_id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "user_id_followed": {
-                    "type": "integer",
-                    "example": 2
-                },
-                "start_date": {
-                    "type": "string",
-                    "format": "date-time",
-                    "example": "2017-07-21T17:32:28Z"
-                }
-            }
-        },
-        "v1.doTweetRequest": {
-            "type": "object",
-            "required": [
-                "user_id",
+                "date_time",
                 "text",
-                "datetime"
+                "user_id"
             ],
             "properties": {
-                "user_id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "text": {
-                    "type": "string",
-                    "example": "tweet message"
-                },
-                "datetime": {
+                "date_time": {
                     "type": "string",
                     "format": "date-time",
                     "example": "2017-07-21T17:32:28Z"
-                }
-            }
-        },
-        "v1.timelineResponse": {
-            "type": "object",
-            "properties": {
+                },
+                "text": {
+                    "type": "string",
+                    "example": "message example"
+                },
                 "user_id": {
                     "type": "integer",
                     "example": 1
+                }
+            }
+        },
+        "handlers.response": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.tweetResponse": {
+            "type": "object",
+            "properties": {
+                "date_time": {
+                    "type": "string"
                 },
+                "id": {
+                    "type": "integer"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "timeline.TimelineUser": {
+            "type": "object",
+            "properties": {
                 "tweets": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/entity.tweet"
+                        "$ref": "#/definitions/tweet.Tweet"
                     }
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },
-        "v1.response": {
+        "tweet.Tweet": {
             "type": "object",
             "properties": {
-                "error": {
-                    "type": "string",
-                    "example": "message"
+                "date_time": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         }

@@ -18,11 +18,11 @@ import (
 
 // NewRouter -.
 // Swagger spec:
-// @title
-// @description
-// @version     1.0
-// @host
-// @BasePath    /v1
+// @title 			Little Twitter API
+// @description		Little Twitter API
+// @version     	1.0
+// @host 			localhost:8080
+// @BasePath    	/v1/api-twitter
 func NewRouter(handler *gin.Engine, l logger.Interface, repo repository.Repo, appSettings *settings.Settings) {
 	// Options
 	handler.Use(gin.Logger())
